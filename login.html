@@ -80,30 +80,5 @@
 
 <script src="script.js"></script>
 
-<script>
-    // Frontend demonstration only.
-    // Real authentication and role permissions require the backend.
-
-    const loginForm = document.getElementById("loginForm");
-
-    loginForm.addEventListener("submit", function (event) {
-        event.preventDefault();
-
-        const role = document.getElementById("userRole").value;
-
-        const dashboards = {
-            student: "dashboard.html",
-            cr: "cr-dashboard.html",
-            teacher: "teacher-dashboard.html",
-            hod: "hod-dashboard.html"
-        };
-
-        if (dashboards[role]) {
-            window.location.href = dashboards[role];
-        }
-    });
-</script>
-
-
 </body>
 </html>
