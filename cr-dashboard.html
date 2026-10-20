@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#172554">
+    <title>CR Dashboard | ENJAMI</title>
+    <link rel="icon" type="image/png" href="favicon.png">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body class="dashboard-page">
+
+<aside class="sidebar">
+    <h2 class="brand">ENJAMI</h2>
+    <p class="sidebar-label">CLASS REPRESENTATIVE</p>
+
+    <nav aria-label="CR navigation">
+        <a href="cr-dashboard.html" class="nav-link active" aria-current="page">Dashboard</a>
+        <a href="#students" class="nav-link">Students</a>
+        <a href="#attendance" class="nav-link">Attendance</a>
+        <a href="#assignments" class="nav-link">Assignments</a>
+        <a href="#announcements" class="nav-link">Announcements</a>
+        <a href="dashboard.html" class="nav-link">Student View</a>
+        <a href="login.html" class="nav-link">↩ Log Out</a>
+    </nav>
+</aside>
+
+<main class="dashboard-main">
+
+    <header class="dashboard-header">
+        <div>
+            <p class="eyebrow">CLASS REPRESENTATIVE SPACE</p>
+            <h1>CR Dashboard</h1>
+            <p>Coordinate your class, support your classmates, and keep everyone informed.</p>
+        </div>
+
+        <div class="profile-badge" aria-label="Class Representative profile">CR</div>
+    </header>
+
+    <section class="welcome-banner">
+        <div>
+            <p>YOUR CLASS. YOUR RESPONSIBILITY.</p>
+            <h2>Welcome, Class Representative!</h2>
+            <p>Manage class information and stay connected with your classmates.</p>
+        </div>
+    </section>
+
+    <section class="stats-grid" aria-label="Class overview">
+
+        <article class="stat-card">
+            <p>Total Students</p>
+            <h2>--</h2>
+            <small>Awaiting student records</small>
+        </article>
+
+        <article class="stat-card">
+            <p>Attendance</p>
+            <h2>--</h2>
+            <small>Awaiting attendance records</small>
+        </article>
+
+        <article class="stat-card">
+            <p>Assignments</p>
+            <h2>--</h2>
+            <small>Awaiting assignment data</small>
+        </article>
+
+        <article class="stat-card">
+            <p>Announcements</p>
+            <h2>--</h2>
+            <small>Awaiting class updates</small>
+        </article>
+
+    </section>
+
+    <div class="dashboard-columns">
+
+        <section class="panel" id="students">
+            <div class="panel-heading">
+                <h2>Student Directory</h2>
+                <span class="pill">STUDENTS</span>
+            </div>
+
+            <p>Search for classmates by name or student ID.</p>
+
+            <input
+                type="search"
+                id="studentSearch"
+                placeholder="Search by student name or ID..."
+                aria-label="Search students"
+            >
+
+            <div class="table-wrapper">
+                <table class="cr-student-table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Student ID</th>
+                            <th scope="col">Name</th>
+                        </tr>
+                    </thead>
+                    <tbody id="studentTable">
+                        <tr>
+                            <td colspan="2" class="empty-table-message">
+                                Student records will appear here when the directory is connected.
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <p id="studentSearchMessage" class="section-note" aria-live="polite"></p>
+        </section>
+
+        <section class="panel" id="attendance">
+            <div class="panel-heading">
+                <h2>Attendance Overview</h2>
+                <span class="pill">ATTENDANCE</span>
+            </div>
+
+            <div class="empty-state">
+                <h3>No attendance records available</h3>
+                <p>Class attendance summaries will appear here when attendance data is connected.</p>
+            </div>
+
+            <p class="section-note">
+                Attendance information will be provided through the connected academic system.
+            </p>
+        </section>
+
+        <section class="panel" id="assignments">
+            <div class="panel-heading">
+                <h2>Assignment Tracker</h2>
+                <span class="pill">DEADLINES</span>
+            </div>
+
+            <div class="empty-state">
+                <h3>No assignments available</h3>
+                <p>Assignments and their due dates will appear here when teachers publish them.</p>
+            </div>
+        </section>
+
+        <section class="panel" id="announcements">
+            <div class="panel-heading">
+                <h2>Class Announcements</h2>
+                <span class="pill">UPDATES</span>
+            </div>
+
+            <div class="empty-state">
+                <h3>No announcements yet</h3>
+                <p>Published class announcements will appear here when the announcement feature is connected.</p>
+            </div>
+
+            <p class="section-note">
+                Creating and publishing announcements will require backend integration.
+            </p>
+        </section>
+
+    </div>
+
+    <footer class="dashboard-footer">
+        ENJAMI © 2026 · Your Class. Your Community. One Platform.
+    </footer>
+
+</main>
+
+<script src="script.js"></script>
+
+<script>
+    const studentSearch = document.getElementById("studentSearch");
+    const studentSearchMessage = document.getElementById("studentSearchMessage");
+
+    studentSearch.addEventListener("input", function () {
+        studentSearchMessage.textContent = this.value.trim()
+            ? "The student directory is not connected yet. Search will be available when student records are integrated."
+            : "";
+    });
+</script>
+
+<style>
+    #studentSearch {
+        box-sizing: border-box;
+        width: 100%;
+        padding: 11px 13px;
+        margin: 12px 0;
+        color: var(--text);
+        background: var(--white);
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        font: inherit;
+    }
+
+    #studentSearch:focus {
+        outline: 2px solid var(--blue);
+        outline-offset: 2px;
+    }
+
+    .table-wrapper {
+        width: 100%;
+        overflow-x: auto;
+    }
+
+    .cr-student-table {
+        width: 100%;
+        border-collapse: collapse;
+        text-align: left;
+    }
+
+    .cr-student-table th,
+    .cr-student-table td {
+        padding: 12px 10px;
+        border-bottom: 1px solid var(--border);
+        color: var(--text);
+    }
+
+    .cr-student-table th {
+        color: var(--navy);
+        background: var(--soft-blue);
+    }
+
+    .cr-student-table .empty-table-message {
+        padding: 18px 12px;
+        color: var(--muted);
+        line-height: 1.6;
+    }
+
+    .section-note {
+        margin-top: 14px;
+        color: var(--muted);
+        font-size: 0.85rem;
+        line-height: 1.6;
+    }
+
+    .empty-state {
+        padding: 24px 16px;
+        text-align: center;
+        border: 1px dashed var(--border);
+        border-radius: var(--radius);
+        background: rgba(232, 238, 255, 0.28);
+    }
+
+    .empty-state h3 {
+        margin: 0 0 8px;
+        color: var(--navy);
+        font-size: 1rem;
+    }
+
+    .empty-state p {
+        margin: 0;
+        color: var(--muted);
+        font-size: 0.9rem;
+        line-height: 1.6;
+        text-shadow: none;
+    }
+</style>
+
+</body>
+</html>

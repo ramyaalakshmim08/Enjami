@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#172554">
+    <title>Student Dashboard | ENJAMI</title>
+    <link rel="icon" type="image/png" href="favicon.png">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="dashboard-page">
+
+<aside class="sidebar">
+    <h2 class="brand">ENJAMI</h2>
+    <p class="sidebar-label">STUDENT SPACE</p>
+
+    <nav aria-label="Student navigation">
+        <a class="nav-link active" href="dashboard.html" aria-current="page">Dashboard</a>
+        <a class="nav-link" href="#timetable">Timetable</a>
+        <a class="nav-link" href="#deadlines">Deadlines</a>
+        <a class="nav-link" href="#my-tasks">My Tasks</a>
+        <a class="nav-link" href="#assignments">Assignments</a>
+        <a class="nav-link" href="#attendance">Attendance</a>
+        <a class="nav-link" href="#announcements">Announcements</a>
+    </nav>
+
+    <a class="nav-link logout-link" href="login.html">↩ Log Out</a>
+</aside>
+
+<main class="dashboard-main">
+
+    <header class="dashboard-header">
+        <div>
+            <p class="eyebrow">YOUR STUDENT SPACE</p>
+            <h1>Welcome to ENJAMI</h1>
+            <p>Your classes, tasks, and updates in one place.</p>
+        </div>
+        <div class="profile-badge" aria-label="Student profile">S</div>
+    </header>
+
+    <section class="welcome-banner">
+        <div>
+            <p>YOUR CLASS. YOUR COMMUNITY.</p>
+            <h2>Make today count.</h2>
+            <p>Stay organized, stay connected, and keep moving forward.</p>
+        </div>
+        <span class="banner-icon" aria-hidden="true"></span>
+    </section>
+
+    <section class="stats-grid" aria-label="Academic overview">
+
+        <article class="stat-card">
+            <span class="stat-icon" aria-hidden="true"></span>
+            <p>Subjects</p>
+            <h2>--</h2>
+            <small>Awaiting academic data</small>
+        </article>
+
+        <article class="stat-card" id="assignments">
+            <span class="stat-icon" aria-hidden="true"></span>
+            <p>Assignments</p>
+            <h2>--</h2>
+            <small>Awaiting assignment data</small>
+        </article>
+
+        <article class="stat-card" id="attendance">
+            <span class="stat-icon" aria-hidden="true"></span>
+            <p>Attendance</p>
+            <h2>--</h2>
+            <small>Awaiting attendance records</small>
+        </article>
+
+        <article class="stat-card">
+            <span class="stat-icon" aria-hidden="true"></span>
+            <p>Next Class</p>
+            <h2>--</h2>
+            <small>Timetable not connected</small>
+        </article>
+
+    </section>
+
+    <div class="dashboard-columns">
+
+        <section class="panel" id="timetable">
+            <div class="panel-heading">
+                <h2>Today's Timetable</h2>
+                <span class="pill">SCHEDULE</span>
+            </div>
+
+            <div class="empty-state">
+                <h3>No timetable available</h3>
+                <p>Your class schedule will appear here when timetable data is connected.</p>
+            </div>
+        </section>
+
+        <section class="panel" id="my-tasks">
+            <div class="panel-heading">
+                <h2>My Tasks</h2>
+                <span class="pill">TO-DO</span>
+            </div>
+
+            <form id="taskForm" class="task-form">
+                <input
+                    type="text"
+                    id="taskInput"
+                    placeholder="Enter a task..."
+                    aria-label="New task"
+                    maxlength="200"
+                    required
+                >
+                <button type="submit">Add</button>
+            </form>
+
+            <ul id="taskList" class="task-list"></ul>
+
+            <p id="taskEmpty">No tasks yet. Add your first task!</p>
+        </section>
+
+        <section class="panel" id="deadlines">
+            <div class="panel-heading">
+                <h2>Upcoming Deadlines</h2>
+                <span class="pill">UP NEXT</span>
+            </div>
+
+            <div class="empty-state">
+                <h3>No deadlines available</h3>
+                <p>Assignment deadlines will appear here when your course data is connected.</p>
+            </div>
+        </section>
+
+        <section class="panel">
+            <div class="panel-heading">
+                <h2>My Assignments</h2>
+                <span class="pill">ACADEMIC</span>
+            </div>
+
+            <div class="empty-state">
+                <h3>No assignments available</h3>
+                <p>Assignments shared by your teachers will appear here.</p>
+            </div>
+        </section>
+
+        <section class="panel" id="announcements">
+            <div class="panel-heading">
+                <h2>Announcements</h2>
+                <span class="announcement-icon" aria-hidden="true"></span>
+            </div>
+
+            <div class="empty-state">
+                <h3>No announcements yet</h3>
+                <p>Updates from your teachers and class representatives will appear here.</p>
+            </div>
+        </section>
+
+    </div>
+
+    <footer class="dashboard-footer">
+        ENJAMI © 2026 · Your Class. Your Community. One Platform.
+    </footer>
+
+</main>
+
+<script src="script.js"></script>
+
+<style>
+    .empty-state {
+        padding: 24px 16px;
+        text-align: center;
+        border: 1px dashed var(--border);
+        border-radius: var(--radius);
+        background: rgba(232, 238, 255, 0.28);
+    }
+
+    .empty-state h3 {
+        margin: 0 0 8px;
+        color: var(--navy);
+        font-size: 1rem;
+    }
+
+    .empty-state p {
+        margin: 0;
+        color: var(--muted);
+        font-size: 0.9rem;
+        line-height: 1.6;
+        text-shadow: none;
+    }
+
+    .empty-state h3,
+    .empty-state p {
+        overflow-wrap: anywhere;
+    }
+</style>
+
+
+</body>
+</html>

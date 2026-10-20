@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#172554">
+    <title>Teacher Dashboard | ENJAMI</title>
+    <link rel="icon" type="image/png" href="favicon.png">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body class="dashboard-page">
+
+<aside class="sidebar">
+    <h2 class="brand">ENJAMI</h2>
+    <p class="sidebar-label">TEACHER PORTAL</p>
+
+    <nav aria-label="Teacher navigation">
+        <a href="teacher-dashboard.html" class="nav-link active" aria-current="page">Dashboard</a>
+        <a href="#classes" class="nav-link">My Classes</a>
+        <a href="#attendance" class="nav-link">Attendance</a>
+        <a href="#assignments" class="nav-link">Assignments</a>
+        <a href="#announcements" class="nav-link">Announcements</a>
+        <a href="#profile" class="nav-link">My Profile</a>
+        <a href="login.html" class="nav-link">↩ Log Out</a>
+    </nav>
+</aside>
+
+<main class="dashboard-main">
+
+    <header class="dashboard-header">
+        <div>
+            <p class="eyebrow">TEACHING WORKSPACE</p>
+            <h1>Teacher Dashboard</h1>
+            <p>Manage your classes, assignments, and student progress.</p>
+        </div>
+        <div class="profile-badge" aria-label="Teacher profile">T</div>
+    </header>
+
+    <section class="welcome-banner">
+        <div>
+            <p>YOUR TEACHING WORKSPACE</p>
+            <h2>Welcome, Teacher!</h2>
+            <p>Keep your classes organized and your students informed.</p>
+        </div>
+    </section>
+
+    <section class="stats-grid" aria-label="Teaching overview">
+
+        <article class="stat-card">
+            <p>Assigned Classes</p>
+            <h2>--</h2>
+            <small>Awaiting class data</small>
+        </article>
+
+        <article class="stat-card">
+            <p>Total Students</p>
+            <h2>--</h2>
+            <small>Awaiting student records</small>
+        </article>
+
+        <article class="stat-card">
+            <p>Assignments</p>
+            <h2 id="assignmentCount">0</h2>
+            <small>Created in this browser</small>
+        </article>
+
+        <article class="stat-card">
+            <p>Pending Reviews</p>
+            <h2>--</h2>
+            <small>Awaiting submission data</small>
+        </article>
+
+    </section>
+
+    <div class="dashboard-columns">
+
+        <section class="panel" id="classes">
+            <div class="panel-heading">
+                <h2>My Classes</h2>
+                <span class="pill">CLASSES</span>
+            </div>
+
+            <div class="empty-state">
+                <h3>No classes available</h3>
+                <p>Your assigned classes and subjects will appear here when your faculty account is connected.</p>
+            </div>
+        </section>
+
+        <section class="panel" id="attendance">
+            <div class="panel-heading">
+                <h2>Attendance</h2>
+                <span class="pill">MANAGEMENT</span>
+            </div>
+
+            <p>Choose a class and date to prepare for attendance management.</p>
+
+            <label for="attendanceClass">Select Class</label>
+            <select id="attendanceClass">
+                <option value="">Choose a class</option>
+            </select>
+
+            <label for="attendanceDate">Attendance Date</label>
+            <input type="date" id="attendanceDate">
+
+            <div class="empty-state">
+                <h3>Attendance records unavailable</h3>
+                <p>Student lists and attendance marking will become available when class and attendance data are connected.</p>
+            </div>
+
+            <p id="attendanceMessage" class="section-note" role="status"></p>
+        </section>
+
+        <section class="panel" id="assignments">
+            <div class="panel-heading">
+                <h2>Assignments</h2>
+                <span class="pill">MANAGEMENT</span>
+            </div>
+
+            <div class="empty-state" id="assignmentEmpty">
+                <h3>No assignments created</h3>
+                <p>Create an assignment below. It will be saved in this browser and will not be shared with students yet.</p>
+            </div>
+
+            <div id="createdAssignments" aria-live="polite"></div>
+
+            <button type="button" id="showAssignmentForm" class="theme-button">
+                Create Assignment
+            </button>
+
+            <form id="assignmentForm" hidden>
+                <label for="assignmentTitle">Assignment Title</label>
+                <input
+                    id="assignmentTitle"
+                    type="text"
+                    maxlength="100"
+                    placeholder="Enter assignment title"
+                    required
+                >
+
+                <label for="assignmentTargetClass">Class</label>
+                <select id="assignmentTargetClass" required>
+                    <option value="">Select class</option>
+                </select>
+
+                <label for="assignmentDeadline">Deadline</label>
+                <input id="assignmentDeadline" type="date" required>
+
+                <button type="submit" class="theme-button">Save Assignment</button>
+                <button type="button" id="cancelAssignmentForm" class="secondary-button">Cancel</button>
+
+                <p id="assignmentMessage" class="section-note" role="status"></p>
+            </form>
+
+            <p class="section-note">
+                Assignments are stored locally on this device. Publishing them to students requires backend integration.
+            </p>
+        </section>
+
+        <section class="panel" id="announcements">
+            <div class="panel-heading">
+                <h2>Announcements</h2>
+                <span class="pill">CLASS UPDATES</span>
+            </div>
+
+            <div class="empty-state">
+                <h3>No published announcements</h3>
+                <p>Announcements will appear here once the publishing feature is connected.</p>
+            </div>
+
+            <label for="announcementText">Draft an Announcement</label>
+            <textarea
+                id="announcementText"
+                rows="4"
+                maxlength="500"
+                placeholder="Write a class announcement..."
+            ></textarea>
+
+            <button type="button" id="saveAnnouncement" class="theme-button">
+                Save Draft
+            </button>
+
+            <p id="announcementMessage" class="section-note" role="status"></p>
+
+            <p class="section-note">
+                Drafts are saved in this browser. Saving a draft does not publish it to students.
+            </p>
+        </section>
+
+        <section class="panel" id="profile">
+            <div class="panel-heading">
+                <h2>Teacher Profile</h2>
+                <span class="pill">MY ACCOUNT</span>
+            </div>
+
+            <div class="profile-summary">
+                <div class="profile-avatar">T</div>
+                <div>
+                    <h3>Teacher Profile</h3>
+                    <p>Faculty Member</p>
+                </div>
+            </div>
+
+            <p><strong>Department:</strong> Not connected</p>
+            <p><strong>Assigned Classes:</strong> Not available</p>
+
+            <p class="section-note">
+                Your name, department, and assigned classes will be loaded from your account after integration.
+            </p>
+        </section>
+
+    </div>
+
+    <footer class="dashboard-footer">
+        ENJAMI © 2026 · Your Class. Your Community. One Platform.
+    </footer>
+
+</main>
+
+<script src="script.js"></script>
+
+<script>
+    (function () {
+        const form = document.getElementById("assignmentForm");
+        const showButton = document.getElementById("showAssignmentForm");
+        const cancelButton = document.getElementById("cancelAssignmentForm");
+        const titleInput = document.getElementById("assignmentTitle");
+        const classInput = document.getElementById("assignmentTargetClass");
+        const deadlineInput = document.getElementById("assignmentDeadline");
+        const message = document.getElementById("assignmentMessage");
+        const list = document.getElementById("createdAssignments");
+        const emptyState = document.getElementById("assignmentEmpty");
+        const count = document.getElementById("assignmentCount");
+        const attendanceClass = document.getElementById("attendanceClass");
+        const attendanceDate = document.getElementById("attendanceDate");
+        const attendanceMessage = document.getElementById("attendanceMessage");
+
+        const STORAGE_KEY = "enjamiTeacherAssignments";
+
+        let assignments = [];
+
+        try {
+            const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
+            if (Array.isArray(saved)) assignments = saved;
+        } catch (error) {
+            assignments = [];
+        }
+
+        function formatDate(dateString) {
+            if (!dateString) return "No deadline";
+
+            const parts = dateString.split("-");
+            if (parts.length !== 3) return dateString;
+
+            return parts[2] + "-" + parts[1] + "-" + parts[0];
+        }
+
+        function renderAssignments() {
+            list.replaceChildren();
+
+            assignments.forEach(function (assignment) {
+                const card = document.createElement("article");
+                card.className = "schedule-item";
+
+                const info = document.createElement("div");
+                info.className = "schedule-info";
+
+                const title = document.createElement("h3");
+                title.textContent = assignment.title;
+
+                const className = document.createElement("p");
+                className.textContent = "Class: " + assignment.className;
+
+                const deadline = document.createElement("p");
+                deadline.textContent = "Due: " + formatDate(assignment.deadline);
+
+                const removeButton = document.createElement("button");
+                removeButton.type = "button";
+                removeButton.className = "secondary-button";
+                removeButton.textContent = "Delete";
+                removeButton.setAttribute(
+                    "aria-label",
+                    "Delete assignment " + assignment.title
+                );
+
+                removeButton.addEventListener("click", function () {
+                    assignments = assignments.filter(function (item) {
+                        return item.id !== assignment.id;
+                    });
+
+                    try {
+                        localStorage.setItem(STORAGE_KEY, JSON.stringify(assignments));
+                        renderAssignments();
+                        message.textContent = "Assignment deleted from this browser.";
+                    } catch (error) {
+                        message.textContent = "Unable to update browser storage.";
+                    }
+                });
+
+                info.append(title, className, deadline);
+                card.append(info, removeButton);
+                list.appendChild(card);
+            });
+
+            emptyState.hidden = assignments.length > 0;
+            count.textContent = String(assignments.length);
+        }
+
+        showButton.addEventListener("click", function () {
+            form.hidden = !form.hidden;
+
+            if (!form.hidden) {
+                const today = new Date();
+                const localToday = new Date(
+                    today.getTime() - today.getTimezoneOffset() * 60000
+                ).toISOString().slice(0, 10);
+
+                deadlineInput.min = localToday;
+                titleInput.focus();
+            }
+        });
+
+        cancelButton.addEventListener("click", function () {
+            form.reset();
+            message.textContent = "";
+            form.hidden = true;
+        });
+
+        form.addEventListener("submit", function (event) {
+            event.preventDefault();
+
+            const title = titleInput.value.trim();
+            const className = classInput.value;
+            const deadline = deadlineInput.value;
+
+            if (!title || !className || !deadline) {
+                message.textContent = "Please complete all fields.";
+                return;
+            }
+
+            const assignment = {
+                id: Date.now(),
+                title: title,
+                className: className,
+                deadline: deadline
+            };
+
+            assignments.push(assignment);
+
+            try {
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(assignments));
+            } catch (error) {
+                assignments.pop();
+                message.textContent = "Unable to save. Check your browser storage.";
+                return;
+            }
+
+            renderAssignments();
+            form.reset();
+            form.hidden = true;
+            message.textContent = "Assignment saved on this device.";
+        });
+
+        attendanceDate.addEventListener("change", function () {
+            attendanceMessage.textContent =
+                "Attendance marking will be available after backend integration.";
+        });
+
+        attendanceClass.addEventListener("change", function () {
+            attendanceMessage.textContent = attendanceClass.value
+                ? "Class attendance records are not connected yet."
+                : "";
+        });
+
+        renderAssignments();
+    })();
+
+    (function () {
+        const input = document.getElementById("announcementText");
+        const button = document.getElementById("saveAnnouncement");
+        const message = document.getElementById("announcementMessage");
+        const STORAGE_KEY = "enjamiTeacherAnnouncementDraft";
+
+        try {
+            input.value = localStorage.getItem(STORAGE_KEY) || "";
+        } catch (error) {
+            message.textContent = "Browser storage is unavailable.";
+        }
+
+        button.addEventListener("click", function () {
+            try {
+                localStorage.setItem(STORAGE_KEY, input.value);
+                message.textContent = "Draft saved on this device.";
+            } catch (error) {
+                message.textContent = "Unable to save the draft in this browser.";
+            }
+        });
+    })();
+
+    (function () {
+        const style = document.createElement("style");
+
+        style.textContent = `
+            .empty-state {
+                padding: 22px 16px;
+                text-align: center;
+                border: 1px dashed var(--border);
+                border-radius: var(--radius);
+                background: rgba(232, 238, 255, 0.28);
+                margin-bottom: 16px;
+            }
+
+            .empty-state h3 {
+                color: var(--navy);
+                margin: 0 0 8px;
+                font-size: 1rem;
+            }
+
+            .empty-state p {
+                color: var(--muted);
+                margin: 0;
+                line-height: 1.6;
+                text-shadow: none;
+            }
+
+            #attendanceClass,
+            #attendanceDate,
+            #assignmentForm input,
+            #assignmentForm select,
+            #announcementText {
+                display: block;
+                box-sizing: border-box;
+                width: 100%;
+                padding: 11px 12px;
+                color: var(--text);
+                background: var(--white);
+                border: 1px solid var(--border);
+                border-radius: 10px;
+                font: inherit;
+                margin: 8px 0 16px;
+            }
+
+            #attendance label,
+            #assignmentForm label,
+            #announcements label {
+                display: block;
+                color: var(--navy);
+                font-weight: 600;
+                margin-top: 14px;
+            }
+
+            #announcementText {
+                resize: vertical;
+            }
+
+            .theme-button,
+            .secondary-button {
+                padding: 10px 15px;
+                margin: 8px 8px 4px 0;
+                border-radius: 9px;
+                font: inherit;
+                cursor: pointer;
+            }
+
+            .theme-button {
+                background: var(--blue);
+                color: white;
+                border: 1px solid var(--blue);
+            }
+
+            .secondary-button {
+                background: var(--soft-blue);
+                color: var(--navy);
+                border: 1px solid var(--border);
+            }
+
+            .theme-button:hover {
+                filter: brightness(0.94);
+            }
+
+            .profile-summary {
+                display: flex;
+                align-items: center;
+                gap: 14px;
+                margin: 20px 0;
+            }
+
+            .profile-avatar {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                width: 58px;
+                height: 58px;
+                flex-shrink: 0;
+                border-radius: 50%;
+                background: var(--soft-blue);
+                color: var(--navy);
+                font-size: 22px;
+                font-weight: 700;
+            }
+
+            .profile-summary h3 {
+                margin: 0 0 5px;
+                color: var(--navy);
+            }
+
+            .profile-summary p,
+            .section-note {
+                color: var(--muted);
+                font-size: 0.88rem;
+                line-height: 1.6;
+                text-shadow: none;
+            }
+
+            .schedule-item {
+                gap: 12px;
+            }
+
+            .schedule-info {
+                min-width: 0;
+                flex: 1;
+            }
+
+            .schedule-info h3 {
+                overflow-wrap: anywhere;
+            }
+
+            [hidden] {
+                display: none !important;
+            }
+        `;
+
+        document.head.appendChild(style);
+    })();
+
+    // The backend will supply real class names.
+    // These selectors intentionally remain empty until integration.
+</script>
+
+</body>
+</html>
