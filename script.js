@@ -62,7 +62,6 @@ event.preventDefault();
 
     window.location.href = dashboards[role];
 });
-```
 
 }
 
@@ -74,7 +73,7 @@ if (signupForm) {
 signupForm.addEventListener("submit", function (event) {
 event.preventDefault();
 
-```
+
     const passwordInput = document.getElementById("signupPassword");
     const confirmPasswordInput = document.getElementById("confirmPassword");
     const message = document.getElementById("signupMessage");
