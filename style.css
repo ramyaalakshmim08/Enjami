@@ -608,13 +608,26 @@ font-size: 25px;
 color: #77829A;
 font-size: 11px;
 }
-
+/* ===== Dashboard Columns ===== */
 .dashboard-columns {
 display: grid;
-grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+grid-template-columns: repeat(2, minmax(0, 1fr));
 gap: 22px;
 align-items: start;
 }
+
+.dashboard-columns > .panel {
+min-width: 0;
+width: 100%;
+}
+
+/* Keep dashboard panels readable on smaller screens */
+@media (max-width: 1100px) {
+.dashboard-columns {
+grid-template-columns: minmax(0, 1fr);
+}
+}
+
 
 .panel {
 padding: 23px;
@@ -1352,4 +1365,30 @@ text-shadow: none;
 .dashboard-page .sidebar {
 background: var(--navy);
 }
+}
+/* ===== HOD Dashboard Layout Only ===== */
+.dashboard-page.hod-dashboard-page .dashboard-columns {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 22px;
+    align-items: start;
+}
+
+.dashboard-page.hod-dashboard-page .dashboard-column {
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+    min-width: 0;
+}
+
+.dashboard-page.hod-dashboard-page .dashboard-column > .panel {
+    width: 100%;
+    min-width: 0;
+    margin: 0;
+}
+
+@media (max-width: 1100px) {
+    .dashboard-page.hod-dashboard-page .dashboard-columns {
+        grid-template-columns: minmax(0, 1fr);
+    }
 }
