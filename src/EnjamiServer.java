@@ -187,46 +187,51 @@ public class EnjamiServer {
 
         server.createContext("/api/rbac/hod",
                 exchange -> handleRoleTest(exchange, "HOD"));
-                // HOD-controlled user management
-server.createContext("/api/admin/users", exchange -> {
-    try {
-        String path = exchange.getRequestURI().getPath();
+                
+        // HOD-controlled user management
+        server.createContext("/api/admin/users", exchange -> {
+            try {
+                String path = exchange.getRequestURI().getPath();
 
-        if ("/api/admin/users".equals(path)) {
-            handleAdminUserList(exchange);
-        } else if (path.matches(
-                "/api/admin/users/[0-9]+/role")) {
-            handleRoleAssignment(exchange);
-        } else {
-            sendError(exchange, 404, "Endpoint not found.");
-        }
-    } finally {
-        exchange.close();
-    }server.createContext("/api/hod/departments", exchange -> {
-    try {
-        String path = exchange.getRequestURI().getPath();
-        String method = exchange.getRequestMethod();
+                if ("/api/admin/users".equals(path)) {
+                    handleAdminUserList(exchange);
+                } else if (path.matches(
+                        "/api/admin/users/[0-9]+/role")) {
+                    handleRoleAssignment(exchange);
+                } else {
+                    sendError(exchange, 404, "Endpoint not found.");
+                }
+            } finally {
+                exchange.close();
+            }
+        });
 
-        AuthService.Session session = requireLogin(exchange);
-        if (session == null) return;
+        // HOD department management
+        server.createContext("/api/hod/departments", exchange -> {
+            try {
+                String path = exchange.getRequestURI().getPath();
+                String method = exchange.getRequestMethod();
 
-        if ("GET".equals(method)
-                && "/api/hod/departments".equals(path)) {
-            handleDepartmentList(exchange, session);
-        } else if ("POST".equals(method)
-                && "/api/hod/departments".equals(path)) {
-            handleDepartmentCreate(exchange, session);
-        } else if ("PUT".equals(method)
-                && path.matches("/api/hod/departments/[0-9]+")) {
-            handleDepartmentRename(exchange, session, path);
-        } else {
-            sendError(exchange, 404, "Endpoint not found.");
-        }
-    } finally {
-        exchange.close();
-    }
-});
-});
+                AuthService.Session session = requireLogin(exchange);
+                if (session == null) return;
+
+                if ("GET".equals(method)
+                        && "/api/hod/departments".equals(path)) {
+                    handleDepartmentList(exchange, session);
+                } else if ("POST".equals(method)
+                        && "/api/hod/departments".equals(path)) {
+                    handleDepartmentCreate(exchange, session);
+                } else if ("PUT".equals(method)
+                        && path.matches("/api/hod/departments/[0-9]+")) {
+                    handleDepartmentRename(exchange, session, path);
+                } else {
+                    sendError(exchange, 404, "Endpoint not found.");
+                }
+            } finally {
+                exchange.close();
+            }
+        });
+
 
 
         server.start();
