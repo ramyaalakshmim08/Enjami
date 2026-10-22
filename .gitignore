@@ -1,0 +1,10 @@
+﻿# Keep the private database local
+database/
+
+# Ignore compiled Java files
+out/
+*.class
+
+# Ignore local settings and secrets
+.vscode/
+.env

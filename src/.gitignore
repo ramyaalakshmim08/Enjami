@@ -1,0 +1,11 @@
+
+# Private SQLite database
+database/
+
+# Compiled Java files
+out/
+*.class
+
+# IDE and local configuration
+.vscode/
+.env
