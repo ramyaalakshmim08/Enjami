@@ -58,7 +58,8 @@ public class EnjamiServer {
     }
 
     private static final String SESSION_COOKIE = "ENJAMI_SESSION";
-    private static final int PORT = 8080;
+    private static final int PORT =
+        Integer.parseInt(System.getenv().getOrDefault("PORT", "8080"));
 
     public static void main(String[] args) throws IOException {
         Database.initialize();
@@ -70,7 +71,7 @@ public class EnjamiServer {
 }
 
         HttpServer server = HttpServer.create(
-                new InetSocketAddress("localhost", PORT), 0);
+                new InetSocketAddress("0.0.0.0", PORT), 0);
 
         createCorsContext(server, "/api/health", exchange -> {
             if (!"GET".equals(exchange.getRequestMethod())) {
