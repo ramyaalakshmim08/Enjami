@@ -6,6 +6,9 @@ import com.google.gson.JsonParser;
 import com.google.gson.JsonParseException;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpServer;
+import com.sun.net.httpserver.Filter;
+import com.sun.net.httpserver.HttpContext;
+import com.sun.net.httpserver.HttpHandler;
 
 import enjami.AuthService;
 import enjami.DepartmentService;
@@ -16,6 +19,43 @@ import java.net.InetSocketAddress;
 import java.nio.charset.StandardCharsets;
 
 public class EnjamiServer {
+
+
+    // CORS support for the local frontend (Live Server on port 5500).
+    private static void addCorsHeaders(HttpExchange exchange) {
+        String origin = exchange.getRequestHeaders().getFirst("Origin");
+        if ("http://127.0.0.1:5500".equals(origin)
+                || "http://localhost:5500".equals(origin)) {
+            exchange.getResponseHeaders().set("Access-Control-Allow-Origin", origin);
+            exchange.getResponseHeaders().set("Access-Control-Allow-Credentials", "true");
+            exchange.getResponseHeaders().set("Access-Control-Allow-Methods", "GET, POST, PUT, OPTIONS");
+            exchange.getResponseHeaders().set("Access-Control-Allow-Headers", "Content-Type");
+            exchange.getResponseHeaders().set("Vary", "Origin");
+        }
+    }
+
+    private static HttpContext createCorsContext(
+            HttpServer server, String path, HttpHandler handler) {
+        HttpContext context = server.createContext(path, handler);
+        context.getFilters().add(new Filter() {
+            @Override
+            public String description() {
+                return "ENJAMI CORS filter";
+            }
+
+            @Override
+            public void doFilter(HttpExchange exchange, Chain chain) throws IOException {
+                addCorsHeaders(exchange);
+                if ("OPTIONS".equals(exchange.getRequestMethod())) {
+                    exchange.sendResponseHeaders(204, -1);
+                    exchange.close();
+                    return;
+                }
+                chain.doFilter(exchange);
+            }
+        });
+        return context;
+    }
 
     private static final String SESSION_COOKIE = "ENJAMI_SESSION";
     private static final int PORT = 8080;
@@ -32,7 +72,7 @@ public class EnjamiServer {
         HttpServer server = HttpServer.create(
                 new InetSocketAddress("localhost", PORT), 0);
 
-        server.createContext("/api/health", exchange -> {
+        createCorsContext(server, "/api/health", exchange -> {
             if (!"GET".equals(exchange.getRequestMethod())) {
                 sendError(exchange, 405, "Method not allowed.");
                 return;
@@ -43,7 +83,7 @@ public class EnjamiServer {
                     + "\"message\":\"ENJAMI backend is running\"}");
         });
 
-        server.createContext("/api/register", exchange -> {
+        createCorsContext(server, "/api/register", exchange -> {
             if (!"POST".equals(exchange.getRequestMethod())) {
                 sendError(exchange, 405, "Method not allowed.");
                 return;
@@ -79,7 +119,7 @@ public class EnjamiServer {
             }
         });
 
-        server.createContext("/api/login", exchange -> {
+        createCorsContext(server, "/api/login", exchange -> {
             if (!"POST".equals(exchange.getRequestMethod())) {
                 sendError(exchange, 405, "Method not allowed.");
                 return;
@@ -131,7 +171,7 @@ public class EnjamiServer {
             }
         });
 
-        server.createContext("/api/logout", exchange -> {
+        createCorsContext(server, "/api/logout", exchange -> {
             if (!"POST".equals(exchange.getRequestMethod())) {
                 sendError(exchange, 405, "Method not allowed.");
                 return;
@@ -149,7 +189,7 @@ public class EnjamiServer {
                     "{\"success\":true,\"message\":\"Logged out.\"}");
         });
 
-        server.createContext("/api/me", exchange -> {
+        createCorsContext(server, "/api/me", exchange -> {
             if (!"GET".equals(exchange.getRequestMethod())) {
                 sendError(exchange, 405, "Method not allowed.");
                 return;
@@ -176,20 +216,19 @@ public class EnjamiServer {
             sendJson(exchange, 200, response.toString());
         });
         // Temporary endpoints for testing role-based access.
-        server.createContext("/api/rbac/student",
+        createCorsContext(server, "/api/rbac/student",
                 exchange -> handleRoleTest(exchange, "STUDENT"));
 
-        server.createContext("/api/rbac/cr",
+        createCorsContext(server, "/api/rbac/cr",
                 exchange -> handleRoleTest(exchange, "CR"));
 
-        server.createContext("/api/rbac/teacher",
+        createCorsContext(server, "/api/rbac/teacher",
                 exchange -> handleRoleTest(exchange, "TEACHER"));
 
-        server.createContext("/api/rbac/hod",
+        createCorsContext(server, "/api/rbac/hod",
                 exchange -> handleRoleTest(exchange, "HOD"));
-                
         // HOD-controlled user management
-        server.createContext("/api/admin/users", exchange -> {
+        createCorsContext(server, "/api/admin/users", exchange -> {
             try {
                 String path = exchange.getRequestURI().getPath();
 
@@ -207,7 +246,7 @@ public class EnjamiServer {
         });
 
         // HOD department management
-        server.createContext("/api/hod/departments", exchange -> {
+        createCorsContext(server, "/api/hod/departments", exchange -> {
             try {
                 String path = exchange.getRequestURI().getPath();
                 String method = exchange.getRequestMethod();
@@ -231,8 +270,6 @@ public class EnjamiServer {
                 exchange.close();
             }
         });
-
-
 
         server.start();
 
@@ -373,7 +410,9 @@ public class EnjamiServer {
         BadRequestException(String message) {
             super(message);
         }
-    }private static AuthService.Session requireLogin(
+    }
+
+    private static AuthService.Session requireLogin(
         HttpExchange exchange) throws IOException {
 
     String token = getCookie(exchange, SESSION_COOKIE);
@@ -427,7 +466,8 @@ private static void handleAdminUserList(
         sendError(exchange, 500, "Internal server error.");
     }
 }
-private static void handleRoleAssignment(
+
+    private static void handleRoleAssignment(
         HttpExchange exchange) throws IOException {
 
     if (!"PUT".equals(exchange.getRequestMethod())) {
@@ -478,7 +518,9 @@ private static void handleRoleAssignment(
         System.err.println("Role assignment database error.");
         sendError(exchange, 500, "Internal server error.");
     }
-}private static void handleDepartmentList(
+}
+
+    private static void handleDepartmentList(
         HttpExchange exchange, AuthService.Session session)
         throws IOException {
 

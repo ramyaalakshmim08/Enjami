@@ -1,0 +1,755 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Announcements | ENJAMI</title>
+
+    <style>
+        :root {
+            --navy: #172554;
+            --blue: #3156A6;
+            --soft-blue: #E8EEFF;
+            --lavender: #F0EDFF;
+            --background: #F5F7FC;
+            --white: #FFFFFF;
+            --text: #26324B;
+            --muted: #77829A;
+            --border: #E4E9F3;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            background: var(--background);
+            color: var(--text);
+        }
+
+        header {
+            background: var(--navy);
+            color: white;
+            padding: 20px 6%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .brand {
+            font-size: 25px;
+            font-weight: 800;
+            letter-spacing: 1px;
+        }
+
+        .brand span {
+            color: #A5B4FC;
+        }
+
+        header p {
+            margin: 5px 0 0;
+            color: #DCE5FF;
+            font-size: 13px;
+        }
+
+        .back-link {
+            color: white;
+            text-decoration: none;
+            border: 1px solid #8799D1;
+            padding: 10px 15px;
+            border-radius: 9px;
+            font-size: 14px;
+        }
+
+        .back-link:hover {
+            background: var(--blue);
+        }
+
+        main {
+            max-width: 1050px;
+            margin: 35px auto;
+            padding: 0 20px 40px;
+        }
+
+        .page-heading {
+            margin-bottom: 25px;
+        }
+
+        .page-heading h1 {
+            color: var(--navy);
+            font-size: 30px;
+            margin: 0 0 8px;
+        }
+
+        .page-heading p {
+            color: var(--muted);
+            margin: 0;
+            line-height: 1.6;
+        }
+
+        .panel {
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 15px;
+            padding: 24px;
+            margin-bottom: 25px;
+        }
+
+        .panel h2,
+        .section-heading {
+            color: var(--navy);
+            font-size: 21px;
+            margin: 0 0 20px;
+        }
+
+        .form-group {
+            margin-bottom: 17px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        input,
+        textarea,
+        select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid var(--border);
+            border-radius: 9px;
+            font: inherit;
+            color: var(--text);
+            background: white;
+        }
+
+        input:focus,
+        textarea:focus,
+        select:focus {
+            outline: 2px solid #A5B4FC;
+            border-color: var(--blue);
+        }
+
+        textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .toolbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: end;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+
+        .filter-control {
+            min-width: 190px;
+        }
+
+        .filter-control label {
+            display: block;
+            margin-bottom: 7px;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .form-actions {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        button {
+            border: none;
+            border-radius: 9px;
+            padding: 12px 18px;
+            font: inherit;
+            font-weight: 700;
+            cursor: pointer;
+            min-height: 44px;
+        }
+
+        .primary-btn {
+            background: var(--blue);
+            color: white;
+        }
+
+        .primary-btn:hover {
+            background: var(--navy);
+        }
+
+        .secondary-btn {
+            background: var(--soft-blue);
+            color: var(--blue);
+        }
+
+        .delete-btn {
+            background: #FEECEC;
+            color: #B42318;
+            font-size: 12px;
+            padding: 8px 11px;
+            min-height: 36px;
+        }
+
+        .notice {
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .success {
+            color: #167647;
+        }
+
+        .error {
+            color: #B42318;
+        }
+
+        .announcement-list {
+            display: grid;
+            gap: 16px;
+        }
+
+        .announcement {
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 15px;
+            padding: 22px;
+            box-shadow: 0 5px 18px rgba(23, 37, 84, 0.04);
+        }
+
+        .announcement-top {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .announcement h3 {
+            color: var(--navy);
+            font-size: 19px;
+            margin: 0 0 10px;
+            overflow-wrap: anywhere;
+        }
+
+        .announcement-message {
+            line-height: 1.7;
+            white-space: pre-wrap;
+            overflow-wrap: anywhere;
+            margin: 10px 0;
+        }
+
+        .meta {
+            color: var(--muted);
+            font-size: 13px;
+            line-height: 1.6;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 6px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 700;
+            background: var(--soft-blue);
+            color: var(--blue);
+            white-space: nowrap;
+        }
+
+        .badge.department {
+            background: var(--lavender);
+            color: #6550A4;
+        }
+
+        .announcement-actions {
+            margin-top: 15px;
+        }
+
+        .empty-state {
+            background: white;
+            border: 1px dashed #C7D0E5;
+            border-radius: 15px;
+            padding: 40px 20px;
+            text-align: center;
+            color: var(--muted);
+        }
+
+        .empty-state h3 {
+            color: var(--navy);
+            margin-top: 0;
+        }
+
+        footer {
+            text-align: center;
+            color: var(--muted);
+            padding: 20px;
+            font-size: 13px;
+        }
+
+        [hidden] {
+            display: none !important;
+        }
+
+        @media (max-width: 600px) {
+            header {
+                padding: 18px 5%;
+            }
+
+            main {
+                margin-top: 25px;
+                padding: 0 15px 30px;
+            }
+
+            .page-heading h1 {
+                font-size: 25px;
+            }
+
+            .panel,
+            .announcement {
+                padding: 18px;
+            }
+
+            .filter-control {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <div>
+        <div class="brand">ENJAMI<span>.</span></div>
+        <p>Student &amp; Class Management System</p>
+    </div>
+
+    <a class="back-link" id="backLink" href="dashboard.html">
+        ↩ Back to Dashboard
+    </a>
+</header>
+
+<main>
+    <section class="page-heading">
+        <h1>Announcements</h1>
+        <p id="roleDescription">
+            Stay informed about important class and department updates.
+        </p>
+    </section>
+
+    <!-- Publishing form: visible for Teacher and HOD -->
+    <section class="panel" id="createPanel" hidden>
+        <h2>Post an Announcement</h2>
+
+        <form id="announcementForm">
+            <div class="form-group">
+                <label for="announcementTitle">Announcement Title</label>
+                <input
+                    id="announcementTitle"
+                    type="text"
+                    maxlength="100"
+                    placeholder="e.g. Internal Assessment Schedule"
+                    required
+                >
+            </div>
+
+            <div class="form-group">
+                <label for="announcementBody">Message</label>
+                <textarea
+                    id="announcementBody"
+                    maxlength="2000"
+                    placeholder="Write your announcement here..."
+                    required
+                ></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="announcementAudience">Audience</label>
+                <select id="announcementAudience">
+                    <option value="class">Class</option>
+                    <option value="department">Department</option>
+                </select>
+            </div>
+
+            <p id="formMessage" class="notice" aria-live="polite"></p>
+
+            <div class="form-actions">
+                <button class="primary-btn" type="submit">
+                    Publish Announcement
+                </button>
+
+                <button class="secondary-btn" type="reset">
+                    Clear Form
+                </button>
+            </div>
+        </form>
+    </section>
+
+    <section>
+        <div class="toolbar">
+            <h2 class="section-heading" style="margin-bottom: 0;">
+                Recent Announcements
+            </h2>
+
+            <div class="filter-control">
+                <label for="audienceFilter">Filter by Audience</label>
+                <select id="audienceFilter">
+                    <option value="all">All Announcements</option>
+                    <option value="class">Class</option>
+                    <option value="department">Department</option>
+                </select>
+            </div>
+        </div>
+
+        <div
+            id="announcementList"
+            class="announcement-list"
+            aria-live="polite"
+        ></div>
+    </section>
+</main>
+
+<footer>
+    ENJAMI · Student &amp; Class Management System
+</footer>
+
+<script>
+(function () {
+    "use strict";
+
+    const STORAGE_KEY = "enjamiAnnouncementsV1";
+
+    const dashboards = {
+        student: "dashboard.html",
+        cr: "cr-dashboard.html",
+        teacher: "teacher-dashboard.html",
+        hod: "hod-dashboard.html"
+    };
+
+    const roleNames = {
+        student: "Student",
+        cr: "Class Representative",
+        teacher: "Teacher",
+        hod: "HOD"
+    };
+
+    const params = new URLSearchParams(window.location.search);
+    const requestedRole = (params.get("role") || "").toLowerCase();
+
+    /*
+      The role parameter is used only to customize the interface.
+      It is NOT authentication or secure permission enforcement.
+    */
+    const role = Object.prototype.hasOwnProperty.call(
+        dashboards,
+        requestedRole
+    ) ? requestedRole : "student";
+
+    const canPublish = role === "teacher" || role === "hod";
+
+    const createPanel = document.getElementById("createPanel");
+    const form = document.getElementById("announcementForm");
+    const titleInput = document.getElementById("announcementTitle");
+    const bodyInput = document.getElementById("announcementBody");
+    const audienceInput = document.getElementById("announcementAudience");
+    const formMessage = document.getElementById("formMessage");
+    const list = document.getElementById("announcementList");
+    const filter = document.getElementById("audienceFilter");
+    const backLink = document.getElementById("backLink");
+
+    backLink.href = dashboards[role];
+
+    document.getElementById("roleDescription").textContent =
+        role === "student"
+            ? "View important class and department updates."
+            : role === "cr"
+                ? "Keep up with important class notices and updates."
+                : role === "teacher"
+                    ? "Publish and manage class announcements."
+                    : "Publish and manage department announcements.";
+
+    createPanel.hidden = !canPublish;
+
+    if (role === "teacher") {
+        audienceInput.value = "class";
+
+        const departmentOption = audienceInput.querySelector(
+            'option[value="department"]'
+        );
+
+        departmentOption.disabled = true;
+    }
+
+    if (role === "hod") {
+        audienceInput.value = "department";
+    }
+
+    function readAnnouncements() {
+        try {
+            const saved = localStorage.getItem(STORAGE_KEY);
+            const parsed = saved ? JSON.parse(saved) : [];
+
+            if (!Array.isArray(parsed)) {
+                return [];
+            }
+
+            return parsed.filter(function (item) {
+                return item &&
+                    typeof item.id === "string" &&
+                    typeof item.title === "string" &&
+                    typeof item.body === "string" &&
+                    ["class", "department"].includes(item.audience) &&
+                    Number.isFinite(item.createdAt);
+            });
+        } catch (error) {
+            return [];
+        }
+    }
+
+    let announcements = readAnnouncements();
+
+    function saveAnnouncements() {
+        try {
+            localStorage.setItem(
+                STORAGE_KEY,
+                JSON.stringify(announcements)
+            );
+
+            return true;
+        } catch (error) {
+            return false;
+        }
+    }
+
+    function formatDate(timestamp) {
+        const date = new Date(timestamp);
+
+        if (Number.isNaN(date.getTime())) {
+            return "Date unavailable";
+        }
+
+        return date.toLocaleString([], {
+            day: "numeric",
+            month: "short",
+            year: "numeric",
+            hour: "2-digit",
+            minute: "2-digit"
+        });
+    }
+
+    function makeElement(tag, className, content) {
+        const element = document.createElement(tag);
+
+        if (className) {
+            element.className = className;
+        }
+
+        element.textContent = content;
+
+        return element;
+    }
+
+    function renderAnnouncements() {
+        list.replaceChildren();
+
+        const selectedAudience = filter.value;
+
+        const visibleAnnouncements = announcements
+            .filter(function (item) {
+                return selectedAudience === "all" ||
+                    item.audience === selectedAudience;
+            })
+            .sort(function (a, b) {
+                return b.createdAt - a.createdAt;
+            });
+
+        if (visibleAnnouncements.length === 0) {
+            const empty = document.createElement("div");
+            empty.className = "empty-state";
+
+            empty.appendChild(
+                makeElement("h3", "", "No Announcements Yet")
+            );
+
+            empty.appendChild(
+                makeElement(
+                    "p",
+                    "",
+                    "New class and department announcements will appear here."
+                )
+            );
+
+            list.appendChild(empty);
+            return;
+        }
+
+        visibleAnnouncements.forEach(function (item) {
+            const card = document.createElement("article");
+            card.className = "announcement";
+
+            const top = document.createElement("div");
+            top.className = "announcement-top";
+
+            top.appendChild(
+                makeElement("h3", "", item.title)
+            );
+
+            top.appendChild(
+                makeElement(
+                    "span",
+                    "badge" +
+                        (item.audience === "department"
+                            ? " department"
+                            : ""),
+                    item.audience === "department"
+                        ? "Department"
+                        : "Class"
+                )
+            );
+
+            card.appendChild(top);
+
+            card.appendChild(
+                makeElement(
+                    "p",
+                    "announcement-message",
+                    item.body
+                )
+            );
+
+            card.appendChild(
+                makeElement(
+                    "div",
+                    "meta",
+                    "Posted by " + item.author +
+                    " · " + formatDate(item.createdAt)
+                )
+            );
+
+            if (canPublish) {
+                const actions = document.createElement("div");
+                actions.className = "announcement-actions";
+
+                const deleteButton = makeElement(
+                    "button",
+                    "delete-btn",
+                    "Delete Announcement"
+                );
+
+                deleteButton.type = "button";
+
+                deleteButton.addEventListener("click", function () {
+                    if (!window.confirm("Delete this announcement?")) {
+                        return;
+                    }
+
+                    const previousAnnouncements = announcements;
+
+                    announcements = announcements.filter(
+                        function (entry) {
+                            return entry.id !== item.id;
+                        }
+                    );
+
+                    if (saveAnnouncements()) {
+                        renderAnnouncements();
+                    } else {
+                        announcements = previousAnnouncements;
+
+                        window.alert(
+                            "Unable to save changes. Please check browser storage."
+                        );
+                    }
+                });
+
+                actions.appendChild(deleteButton);
+                card.appendChild(actions);
+            }
+
+            list.appendChild(card);
+        });
+    }
+
+    form.addEventListener("submit", function (event) {
+        event.preventDefault();
+
+        if (!canPublish) {
+            return;
+        }
+
+        const title = titleInput.value.trim();
+        const body = bodyInput.value.trim();
+        const audience = audienceInput.value;
+
+        if (!title || !body) {
+            formMessage.textContent =
+                "Please enter both a title and a message.";
+
+            formMessage.className = "notice error";
+            return;
+        }
+
+        if (role === "teacher" && audience !== "class") {
+            formMessage.textContent =
+                "Teachers can publish class announcements in this version.";
+
+            formMessage.className = "notice error";
+            return;
+        }
+
+        const announcement = {
+            id: Date.now().toString() +
+                Math.random().toString(16).slice(2),
+            title: title,
+            body: body,
+            audience: audience,
+            author: roleNames[role],
+            createdAt: Date.now()
+        };
+
+        announcements.push(announcement);
+
+        if (!saveAnnouncements()) {
+            announcements.pop();
+
+            formMessage.textContent =
+                "Unable to save the announcement. Please check browser storage.";
+
+            formMessage.className = "notice error";
+            return;
+        }
+
+        form.reset();
+
+        if (role === "teacher") {
+            audienceInput.value = "class";
+        } else if (role === "hod") {
+            audienceInput.value = "department";
+        }
+
+        formMessage.textContent =
+            "Announcement published successfully!";
+
+        formMessage.className = "notice success";
+
+        renderAnnouncements();
+    });
+
+    filter.addEventListener("change", renderAnnouncements);
+
+    renderAnnouncements();
+})();
+</script>
+
+</body>
+</html>
+

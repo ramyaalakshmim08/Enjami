@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login | ENJAMI</title>
+    <link rel="icon" type="image/png" href="favicon.png">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+
+<main class="auth-box">
+
+    <h1>Welcome Back!</h1>
+    <p class="auth-description">Log in to continue to ENJAMI.</p>
+
+    <form id="loginForm">
+
+        <label for="email">Email Address</label>
+        <input
+            type="email"
+            id="email"
+            placeholder="Enter your email"
+            autocomplete="username"
+            required
+        >
+
+        <label for="password">Password</label>
+
+        <div class="password-wrapper">
+            <input
+                type="password"
+                id="password"
+                placeholder="Enter your password"
+                autocomplete="current-password"
+                required
+            >
+            <button
+                type="button"
+                class="password-toggle"
+                data-target="password"
+            >Show</button>
+        </div>
+
+        <label for="userRole">Login As</label>
+
+        <select
+            id="userRole"
+            required
+            style="width:100%;padding:12px;margin-bottom:16px;border:1px solid #dbe2ef;border-radius:8px;background:#fff;color:#1e293b;"
+        >
+            <option value="student">Student</option>
+            <option value="cr">Class Representative (CR)</option>
+            <option value="teacher">Teacher</option>
+            <option value="hod">HOD / Coordinator</option>
+        </select>
+
+        <button type="submit" class="auth-button">Log In</button>
+
+        <p id="loginMessage" class="form-message" aria-live="polite"></p>
+
+        <p style="font-size:12px;color:#64748b;text-align:center;margin-top:10px;">
+            Demonstration mode: account verification is not enabled yet.
+        </p>
+
+    </form>
+
+    <p class="auth-switch">
+        Don't have an account? <a href="signup.html">Create Account</a>
+    </p>
+
+    <p class="back-home">
+        <a href="index.html">← Back to Home</a>
+    </p>
+
+</main>
+
+<script src="script.js"></script>
+
+</body>
+</html>

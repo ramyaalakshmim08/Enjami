@@ -1,0 +1,751 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#172554">
+    <title>HOD Dashboard | ENJAMI</title>
+    <link rel="icon" type="image/png" href="favicon.png">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body class="dashboard-page">
+
+<aside class="sidebar">
+    <h2 class="brand">ENJAMI</h2>
+    <p class="sidebar-label">ADMINISTRATION</p>
+
+    <nav aria-label="HOD navigation">
+        <a href="hod-dashboard.html" class="nav-link active" aria-current="page">Dashboard</a>
+        <a href="#students" class="nav-link">Students</a>
+        <a href="#teachers" class="nav-link">Teachers</a>
+        <a href="#cr-management" class="nav-link">CR Management</a>
+        <a href="#classes" class="nav-link">Classes &amp; Subjects</a>
+        <a href="#attendance" class="nav-link">Attendance</a>
+        <a href="#assignments" class="nav-link">Assignments</a>
+        <a href="#announcements" class="nav-link">Announcements</a>
+        <a href="login.html" class="nav-link">↩ Log Out</a>
+    </nav>
+</aside>
+
+<main class="dashboard-main">
+
+    <header class="dashboard-header">
+        <div>
+            <p class="eyebrow">DEPARTMENT ADMINISTRATION</p>
+            <h1>HOD Dashboard</h1>
+            <p>Manage department activities and monitor academic progress.</p>
+        </div>
+        <div class="profile-badge" aria-label="Head of Department profile">HOD</div>
+    </header>
+
+    <section class="welcome-banner">
+        <div>
+            <p>DEPARTMENT WORKSPACE</p>
+            <h2>Department Administration</h2>
+            <p>Your central workspace for students, faculty, classes, and academic activities.</p>
+        </div>
+    </section>
+
+    <section class="stats-grid" aria-label="Department overview">
+
+        <article class="stat-card">
+            <p>Total Students</p>
+            <h2>--</h2>
+            <small>Awaiting student records</small>
+        </article>
+
+        <article class="stat-card">
+            <p>Faculty Members</p>
+            <h2 id="totalTeachers">0</h2>
+            <small>Local demonstration records</small>
+        </article>
+
+        <article class="stat-card">
+            <p>Classes</p>
+            <h2>--</h2>
+            <small>Awaiting class records</small>
+        </article>
+
+        <article class="stat-card">
+            <p>Department Attendance</p>
+            <h2>--</h2>
+            <small>Awaiting attendance records</small>
+        </article>
+
+    </section>
+
+    <div class="dashboard-columns">
+
+        <section class="panel" id="students">
+            <div class="panel-heading">
+                <h2>Student Management</h2>
+                <span class="pill">STUDENTS</span>
+            </div>
+
+            <p>Review and search the department student directory.</p>
+
+            <input
+                type="search"
+                id="studentSearch"
+                placeholder="Search by name, ID, or class..."
+                aria-label="Search students"
+            >
+
+            <div class="table-wrapper">
+                <table class="hod-table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Student ID</th>
+                            <th scope="col">Name</th>
+                            <th scope="col">Class</th>
+                        </tr>
+                    </thead>
+                    <tbody id="studentTable">
+                        <tr>
+                            <td colspan="3" class="empty-table-message">
+                                Student records will appear here when the database is connected.
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <p id="studentMessage" class="section-note" role="status"></p>
+        </section>
+
+        <section class="panel" id="teachers">
+            <div class="panel-heading">
+                <h2>Faculty Management</h2>
+                <span class="pill">TEACHERS</span>
+            </div>
+
+            <p>Add faculty records to this browser's demonstration directory.</p>
+
+            <form id="teacherForm">
+                <label for="teacherName">Teacher Name</label>
+                <input
+                    type="text"
+                    id="teacherName"
+                    placeholder="Enter teacher name"
+                    maxlength="100"
+                    required
+                >
+
+                <label for="teacherId">Faculty ID</label>
+                <input
+                    type="text"
+                    id="teacherId"
+                    placeholder="Enter faculty ID"
+                    maxlength="30"
+                    required
+                >
+
+                <button type="submit" class="theme-button">Add Teacher</button>
+            </form>
+
+            <p id="teacherMessage" class="section-note" role="status"></p>
+            <div id="teacherList" class="record-list"></div>
+
+            <p class="section-note">
+                These records are stored in this browser only. They are not added to a shared faculty database.
+            </p>
+        </section>
+
+        <section class="panel" id="cr-management">
+            <div class="panel-heading">
+                <h2>CR Management</h2>
+                <span class="pill">REPRESENTATIVES</span>
+            </div>
+
+            <p>Assign a class representative to a class.</p>
+
+            <form id="crForm">
+                <label for="crClass">Class</label>
+                <input
+                    type="text"
+                    id="crClass"
+                    placeholder="Enter class name"
+                    maxlength="50"
+                    required
+                >
+
+                <label for="crName">CR Name</label>
+                <input
+                    type="text"
+                    id="crName"
+                    maxlength="100"
+                    placeholder="Enter representative name"
+                    required
+                >
+
+                <label for="crStudentId">Student ID</label>
+                <input
+                    type="text"
+                    id="crStudentId"
+                    maxlength="30"
+                    placeholder="Enter student ID"
+                    required
+                >
+
+                <button type="submit" class="theme-button">Assign CR</button>
+            </form>
+
+            <p id="crMessage" class="section-note" role="status"></p>
+            <div id="crList" class="record-list"></div>
+
+            <p class="section-note">
+                CR assignments are saved locally for demonstration until backend integration.
+            </p>
+        </section>
+
+        <section class="panel" id="classes">
+            <div class="panel-heading">
+                <h2>Classes &amp; Subjects</h2>
+                <span class="pill">ACADEMIC</span>
+            </div>
+
+            <div class="empty-state">
+                <h3>No class records available</h3>
+                <p>Department classes, subjects, and teacher assignments will appear here when academic records are connected.</p>
+            </div>
+        </section>
+
+        <section class="panel" id="attendance">
+            <div class="panel-heading">
+                <h2>Attendance Monitoring</h2>
+                <span class="pill">ATTENDANCE</span>
+            </div>
+
+            <label for="attendanceClass">Filter by Class</label>
+            <input
+                type="text"
+                id="attendanceClass"
+                placeholder="Enter class name"
+                maxlength="50"
+            >
+
+            <div class="empty-state">
+                <h3>No attendance reports available</h3>
+                <p>Department attendance summaries will appear here when attendance records are connected.</p>
+            </div>
+
+            <p id="attendanceMessage" class="section-note" role="status"></p>
+        </section>
+
+        <section class="panel" id="assignments">
+            <div class="panel-heading">
+                <h2>Assignment Oversight</h2>
+                <span class="pill">ACADEMIC WORK</span>
+            </div>
+
+            <div class="empty-state">
+                <h3>No assignment records available</h3>
+                <p>Published assignments and submission summaries will appear here when teacher and student data are connected.</p>
+            </div>
+        </section>
+
+        <section class="panel" id="announcements">
+            <div class="panel-heading">
+                <h2>Department Announcements</h2>
+                <span class="pill">COMMUNICATION</span>
+            </div>
+
+            <form id="announcementForm">
+                <label for="announcementTitle">Announcement Title</label>
+                <input
+                    type="text"
+                    id="announcementTitle"
+                    maxlength="120"
+                    placeholder="Enter announcement title"
+                    required
+                >
+
+                <label for="announcementBody">Message</label>
+                <textarea
+                    id="announcementBody"
+                    rows="4"
+                    maxlength="1000"
+                    placeholder="Write a department announcement..."
+                    required
+                ></textarea>
+
+                <button type="submit" class="theme-button">Save Announcement</button>
+            </form>
+
+            <p id="announcementMessage" class="section-note" role="status"></p>
+            <div id="announcementList" class="record-list"></div>
+
+            <p class="section-note">
+                Announcements saved here are local drafts for demonstration; they are not published to students or teachers.
+            </p>
+        </section>
+
+    </div>
+
+    <footer class="dashboard-footer">
+        ENJAMI © 2026 · Your Class. Your Community. One Platform.
+    </footer>
+
+</main>
+
+<style>
+    .table-wrapper {
+        width: 100%;
+        overflow-x: auto;
+        margin-top: 14px;
+    }
+
+    .hod-table {
+        width: 100%;
+        border-collapse: collapse;
+        text-align: left;
+    }
+
+    .hod-table th,
+    .hod-table td {
+        padding: 12px 10px;
+        border-bottom: 1px solid var(--border);
+        color: var(--text);
+    }
+
+    .hod-table th {
+        color: var(--navy);
+        background: var(--soft-blue);
+    }
+
+    .empty-table-message {
+        color: var(--muted) !important;
+        line-height: 1.6;
+    }
+
+    #studentSearch,
+    #teacherForm input,
+    #crForm input,
+    #attendanceClass,
+    #announcementForm input,
+    #announcementForm textarea {
+        display: block;
+        box-sizing: border-box;
+        width: 100%;
+        margin: 8px 0 16px;
+        padding: 11px 12px;
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        background: var(--white);
+        color: var(--text);
+        font: inherit;
+    }
+
+    #announcementForm textarea {
+        resize: vertical;
+    }
+
+    #teacherForm label,
+    #crForm label,
+    #attendance label,
+    #announcementForm label {
+        display: block;
+        margin-top: 12px;
+        color: var(--navy);
+        font-weight: 600;
+    }
+
+    .theme-button,
+    .record-list button {
+        padding: 10px 15px;
+        border: 1px solid var(--blue);
+        border-radius: 9px;
+        background: var(--blue);
+        color: var(--white);
+        font: inherit;
+        cursor: pointer;
+    }
+
+    .theme-button:hover,
+    .record-list button:hover {
+        filter: brightness(0.94);
+    }
+
+    .record-list {
+        display: grid;
+        gap: 12px;
+        margin-top: 14px;
+    }
+
+    .record-card {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        padding: 14px;
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        background: var(--white);
+    }
+
+    .record-card-content {
+        min-width: 0;
+        overflow-wrap: anywhere;
+    }
+
+    .record-card h3 {
+        margin: 0 0 6px;
+        color: var(--navy);
+        font-size: 1rem;
+    }
+
+    .record-card p {
+        margin: 4px 0;
+        color: var(--muted);
+        font-size: 0.9rem;
+        text-shadow: none;
+        line-height: 1.5;
+    }
+
+    .record-card button {
+        flex-shrink: 0;
+        background: var(--soft-blue);
+        color: var(--navy);
+        border-color: var(--border);
+    }
+
+    .empty-state {
+        padding: 22px 16px;
+        text-align: center;
+        border: 1px dashed var(--border);
+        border-radius: var(--radius);
+        background: rgba(232, 238, 255, 0.28);
+    }
+
+    .empty-state h3 {
+        margin: 0 0 8px;
+        color: var(--navy);
+        font-size: 1rem;
+    }
+
+    .empty-state p {
+        margin: 0;
+        color: var(--muted);
+        font-size: 0.9rem;
+        line-height: 1.6;
+        text-shadow: none;
+    }
+
+    .section-note {
+        margin-top: 12px;
+        color: var(--muted);
+        font-size: 0.85rem;
+        line-height: 1.6;
+        overflow-wrap: anywhere;
+    }
+
+    [hidden] {
+        display: none !important;
+    }
+</style>
+
+<script>
+    (function () {
+        const KEYS = {
+            teachers: "enjamiHodTeachers",
+            representatives: "enjamiHodCRs",
+            announcements: "enjamiHodAnnouncements"
+        };
+
+        function readRecords(key) {
+            try {
+                const records = JSON.parse(localStorage.getItem(key) || "[]");
+                return Array.isArray(records) ? records : [];
+            } catch (error) {
+                return [];
+            }
+        }
+
+        function saveRecords(key, records) {
+            try {
+                localStorage.setItem(key, JSON.stringify(records));
+                return true;
+            } catch (error) {
+                return false;
+            }
+        }
+
+        function makeElement(tag, text, className) {
+            const element = document.createElement(tag);
+            element.textContent = text;
+            if (className) element.className = className;
+            return element;
+        }
+
+        function createRecordCard(title, details, onRemove) {
+            const card = document.createElement("article");
+            card.className = "record-card";
+
+            const content = document.createElement("div");
+            content.className = "record-card-content";
+
+            content.appendChild(makeElement("h3", title));
+
+            details.forEach(function (detail) {
+                content.appendChild(makeElement("p", detail));
+            });
+
+            const removeButton = makeElement("button", "Delete");
+            removeButton.type = "button";
+            removeButton.addEventListener("click", onRemove);
+
+            card.append(content, removeButton);
+            return card;
+        }
+
+        function renderRecords(container, records, buildCard) {
+            container.replaceChildren();
+
+            records.forEach(function (record) {
+                container.appendChild(buildCard(record));
+            });
+        }
+
+        // Faculty management
+        (function () {
+            const form = document.getElementById("teacherForm");
+            const nameInput = document.getElementById("teacherName");
+            const idInput = document.getElementById("teacherId");
+            const message = document.getElementById("teacherMessage");
+            const list = document.getElementById("teacherList");
+            const total = document.getElementById("totalTeachers");
+
+            let teachers = readRecords(KEYS.teachers);
+
+            function render() {
+                total.textContent = String(teachers.length);
+
+                renderRecords(list, teachers, function (teacher) {
+                    return createRecordCard(
+                        teacher.name,
+                        ["Faculty ID: " + teacher.id],
+                        function () {
+                            const updated = teachers.filter(function (item) {
+                                return item.recordId !== teacher.recordId;
+                            });
+
+                            if (!saveRecords(KEYS.teachers, updated)) {
+                                message.textContent = "Unable to save changes in browser storage.";
+                                return;
+                            }
+
+                            teachers = updated;
+                            render();
+                            message.textContent = "Faculty record removed from this browser.";
+                        }
+                    );
+                });
+            }
+
+            form.addEventListener("submit", function (event) {
+                event.preventDefault();
+
+                const name = nameInput.value.trim();
+                const id = idInput.value.trim();
+
+                if (!name || !id) {
+                    message.textContent = "Please complete both fields.";
+                    return;
+                }
+
+                if (teachers.some(function (teacher) {
+                    return teacher.id.toLowerCase() === id.toLowerCase();
+                })) {
+                    message.textContent = "That faculty ID already exists in this local list.";
+                    return;
+                }
+
+                const updated = teachers.concat({
+                    recordId: Date.now() + "-" + Math.random(),
+                    name: name,
+                    id: id
+                });
+
+                if (!saveRecords(KEYS.teachers, updated)) {
+                    message.textContent = "Unable to save. Check browser storage.";
+                    return;
+                }
+
+                teachers = updated;
+                form.reset();
+                render();
+                message.textContent = "Faculty record saved locally.";
+            });
+
+            render();
+        })();
+
+        // Class representative management
+        (function () {
+            const form = document.getElementById("crForm");
+            const classInput = document.getElementById("crClass");
+            const nameInput = document.getElementById("crName");
+            const idInput = document.getElementById("crStudentId");
+            const message = document.getElementById("crMessage");
+            const list = document.getElementById("crList");
+
+            let representatives = readRecords(KEYS.representatives);
+
+            function render() {
+                renderRecords(list, representatives, function (representative) {
+                    return createRecordCard(
+                        representative.className,
+                        [
+                            "CR: " + representative.name,
+                            "Student ID: " + representative.studentId
+                        ],
+                        function () {
+                            const updated = representatives.filter(function (item) {
+                                return item.recordId !== representative.recordId;
+                            });
+
+                            if (!saveRecords(KEYS.representatives, updated)) {
+                                message.textContent = "Unable to save changes.";
+                                return;
+                            }
+
+                            representatives = updated;
+                            render();
+                            message.textContent = "CR assignment removed.";
+                        }
+                    );
+                });
+            }
+
+            form.addEventListener("submit", function (event) {
+                event.preventDefault();
+
+                const className = classInput.value.trim();
+                const name = nameInput.value.trim();
+                const studentId = idInput.value.trim();
+
+                if (!className || !name || !studentId) {
+                    message.textContent = "Please complete all fields.";
+                    return;
+                }
+
+                const updated = representatives.filter(function (item) {
+                    return item.className.toLowerCase() !== className.toLowerCase();
+                });
+
+                updated.push({
+                    recordId: Date.now() + "-" + Math.random(),
+                    className: className,
+                    name: name,
+                    studentId: studentId
+                });
+
+                if (!saveRecords(KEYS.representatives, updated)) {
+                    message.textContent = "Unable to save. Check browser storage.";
+                    return;
+                }
+
+                representatives = updated;
+                form.reset();
+                render();
+                message.textContent = "CR assignment saved locally.";
+            });
+
+            render();
+        })();
+
+        // Department announcements
+        (function () {
+            const form = document.getElementById("announcementForm");
+            const titleInput = document.getElementById("announcementTitle");
+            const bodyInput = document.getElementById("announcementBody");
+            const message = document.getElementById("announcementMessage");
+            const list = document.getElementById("announcementList");
+
+            let announcements = readRecords(KEYS.announcements);
+
+            function render() {
+                renderRecords(list, announcements, function (announcement) {
+                    return createRecordCard(
+                        announcement.title,
+                        [
+                            announcement.body,
+                            "Saved locally · " + announcement.date
+                        ],
+                        function () {
+                            const updated = announcements.filter(function (item) {
+                                return item.recordId !== announcement.recordId;
+                            });
+
+                            if (!saveRecords(KEYS.announcements, updated)) {
+                                message.textContent = "Unable to save changes.";
+                                return;
+                            }
+
+                            announcements = updated;
+                            render();
+                            message.textContent = "Announcement removed from this browser.";
+                        }
+                    );
+                });
+            }
+
+            form.addEventListener("submit", function (event) {
+                event.preventDefault();
+
+                const title = titleInput.value.trim();
+                const body = bodyInput.value.trim();
+
+                if (!title || !body) {
+                    message.textContent = "Please enter a title and message.";
+                    return;
+                }
+
+                const updated = [{
+                    recordId: Date.now() + "-" + Math.random(),
+                    title: title,
+                    body: body,
+                    date: new Date().toLocaleDateString()
+                }].concat(announcements);
+
+                if (!saveRecords(KEYS.announcements, updated)) {
+                    message.textContent = "Unable to save. Check browser storage.";
+                    return;
+                }
+
+                announcements = updated;
+                form.reset();
+                render();
+                message.textContent = "Announcement saved locally. It has not been published.";
+            });
+
+            render();
+        })();
+
+        // Student search placeholder
+        const studentSearch = document.getElementById("studentSearch");
+        const studentMessage = document.getElementById("studentMessage");
+
+        studentSearch.addEventListener("input", function () {
+            studentMessage.textContent = this.value.trim()
+                ? "Student records are not connected yet. Search will be available after integration."
+                : "";
+        });
+
+        // Attendance filter placeholder
+        const attendanceClass = document.getElementById("attendanceClass");
+        const attendanceMessage = document.getElementById("attendanceMessage");
+
+        attendanceClass.addEventListener("input", function () {
+            attendanceMessage.textContent = this.value.trim()
+                ? "Attendance data for " + this.value.trim() + " is not connected yet."
+                : "";
+        });
+    })();
+</script>
+
+
+</body>
+</html>
