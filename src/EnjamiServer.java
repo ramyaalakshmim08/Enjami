@@ -25,7 +25,8 @@ public class EnjamiServer {
     private static void addCorsHeaders(HttpExchange exchange) {
         String origin = exchange.getRequestHeaders().getFirst("Origin");
         if ("http://127.0.0.1:5500".equals(origin)
-                || "http://localhost:5500".equals(origin)) {
+        || "http://localhost:5500".equals(origin)
+        || "https://enjami-1.onrender.com".equals(origin)) {
             exchange.getResponseHeaders().set("Access-Control-Allow-Origin", origin);
             exchange.getResponseHeaders().set("Access-Control-Allow-Credentials", "true");
             exchange.getResponseHeaders().set("Access-Control-Allow-Methods", "GET, POST, PUT, OPTIONS");
