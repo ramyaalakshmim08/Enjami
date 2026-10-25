@@ -24,6 +24,7 @@ public class EnjamiServer {
     // CORS support for the local frontend (Live Server on port 5500).
     private static void addCorsHeaders(HttpExchange exchange) {
         String origin = exchange.getRequestHeaders().getFirst("Origin");
+System.out.println("CORS request Origin: " + origin);
         if ("http://127.0.0.1:5500".equals(origin)
         || "http://localhost:5500".equals(origin)
         || "https://enjami-1.onrender.com".equals(origin)) {
